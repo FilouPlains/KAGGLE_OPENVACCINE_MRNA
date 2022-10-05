@@ -99,18 +99,17 @@ def positional_embedding(length: int, seq_len: int) \
     e_f: np.array = to_filter % 2 == 1
 
     # Doing arithmetic operation applied with a vectoriel
-    array[:, o_f] = np.divide(dimension[:, o_f], 10_000 ** (2 * to_filter[o_f]
-                                                            / seq_len))
-    array[:, e_f] = np.divide(dimension[:, e_f], 10_000 ** (2 * to_filter[e_f]
-                                                            / seq_len))
+    array[:, o_f] = np.sin(np.divide(dimension[:, o_f], 10_000 **
+                                     (2 * to_filter[o_f] / seq_len)))
+    array[:, e_f] = np.cos(np.divide(dimension[:, e_f], 10_000 **
+                                     (2 * to_filter[e_f] / seq_len)))
 
     return array
 
 
 if __name__ == '__main__':
     # Data importation.
-    data_train: np.array = np.load(
-        "../../DATA/training.npy", allow_pickle=True)
+    data_train: np.array = np.load("../data/training.npy", allow_pickle=True)
 
     # Creating input embedding matrix.
     sequence: np.array = hot_encoding(array=data_train[:, 1], dic=BASE)

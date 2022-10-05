@@ -12,8 +12,6 @@ __date__ = "23/09/2022"
 __version__ = "1.0.0"
 __copyright__ = "CC BY-SA"
 
-PATH = "../../DATA/"
-
 from numpy import array, row_stack, save
 
 
@@ -39,7 +37,7 @@ def __into_array(lst_str):
 def write_test():
     """Function which writes the testing dataset.
     """
-    with open(PATH + "/test.json", "r", encoding="utf-8") as file:
+    with open("../data/test.json", "r", encoding="utf-8") as file:
         data = None
 
         for line in file:
@@ -67,14 +65,14 @@ def write_test():
                 data = row_stack([data, line_clean])
 
     # Saving all data into a `.npy` file.
-    save(PATH + "/test.npy", data)
+    save("../data/test.npy", data)
     print("[[DONE: WRITING AND SAVING TEST DATASET]]")
 
 
 def write_train():
     """Function which writes the training dataset.
     """
-    with open(PATH + "/train.json", "r", encoding="utf-8") as file:
+    with open("../data/train.json", "r", encoding="utf-8") as file:
         data = None
 
         for line in file:
@@ -119,7 +117,7 @@ def write_train():
                 data = row_stack([data, line_clean])
 
     # Saving all data into a `.npy` file.
-    save(PATH + "/training.npy", data)
+    save("../data/training.npy", data)
     print("[[DONE: WRITING AND SAVING TRAINING DATASET]]")
 
 
