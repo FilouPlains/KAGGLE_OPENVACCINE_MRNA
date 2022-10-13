@@ -35,15 +35,15 @@ LOOP = {
 }
 
 
-def hot_encoding(array: np.array(str), dic: dict[str, int]) \
+def hot_encoding(dataset: np.array(str), encoder: dict[str, int]) \
         -> np.array(np.array(int)):
     """Modify a numpy array of string letters into a one with string digits.
 
     Parameters
     ----------
-    array : np.array(str)
+    dataset : np.array(str)
         The array to modify.
-    dic : dict[str, str]
+    encoder : dict[str, str]
         Dictionary containing which characters to modify (`key`) with what
         (`value`).
 
@@ -53,7 +53,7 @@ def hot_encoding(array: np.array(str), dic: dict[str, int]) \
         The modify array.
     """
     # Break string into list, with 1 character per index.
-    brk_array: list[list[str]] = [*array]
+    brk_array: list[list[str]] = [*dataset]
     int_array: list[list[int]] = []
 
     # Parsing all array's row.
@@ -62,7 +62,7 @@ def hot_encoding(array: np.array(str), dic: dict[str, int]) \
 
         # Parsing all row's base.
         for base in row:
-            trlt_base.append(dic[base])
+            trlt_base.append(encoder[base])
 
         int_array.append(trlt_base)
 
@@ -109,12 +109,13 @@ def positional_embedding(length: int, seq_len: int) \
 
 if __name__ == '__main__':
     # Data importation.
-    data_train: np.array = np.load("../data/training.npy", allow_pickle=True)
+    data_train: np.array = np.load("data/training.npy", allow_pickle=True)
 
     # Creating input embedding matrix.
-    sequence: np.array = hot_encoding(array=data_train[:, 1], dic=BASE)
-    second_strct: np.array = hot_encoding(array=data_train[:, 2], dic=PAIRED)
-    loop_type: np.array = hot_encoding(array=data_train[:, 3], dic=LOOP)
+    sequence: np.array = hot_encoding(dataset=data_train[:, 1], encoder=BASE)
+    second_strct: np.array = hot_encoding(dataset=data_train[:, 2],
+                                          encoder=PAIRED)
+    loop_type: np.array = hot_encoding(dataset=data_train[:, 3], encoder=LOOP)
 
     # Creating positional embedding matrix.
     dim: tuple = sequence.shape
