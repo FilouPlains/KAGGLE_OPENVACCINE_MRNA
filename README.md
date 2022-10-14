@@ -7,6 +7,8 @@
 
 </br>
 
+**[ ⚠️ PYTHON >= 3.10 ]**
+
 ## 🔎 Interesting path
 - 📑 Report: [path]
 - 📢 Oral presentation: [path]
