@@ -35,3 +35,7 @@ python MLM_SFP.py
     --embedding_output ${OUTPUT_FILE} \
     --batch 40 \
 ```
+## 4. Download the embeddings
+
+Here is the link to download the embedding that we obtain
+https://drive.google.com/drive/folders/1wAsXxWd5TrJs1cu3K-GJJgGXHrTv_EL3?usp=sharing
