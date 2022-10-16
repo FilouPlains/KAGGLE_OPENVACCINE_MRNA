@@ -11,7 +11,11 @@ from keras.layers import GRU
 from keras.layers import Embedding
 from keras.layers import Flatten
 from keras.layers import Conv1D
+from keras.layers import Conv2D
+from keras.layers import BatchNormalization
 from keras.layers import SpatialDropout1D
+from keras.layers import Activation
+from keras.layers import MaxPooling1D
 import matplotlib.pyplot as plt
 from keras.utils.vis_utils import plot_model
 from keras.layers import Reshape
@@ -34,8 +38,9 @@ second_strct: np.array = emb.hot_encoding(dataset=data_train[:, 2],
 loop_type: np.array = emb.hot_encoding(
     dataset=data_train[:, 3], encoder=emb.LOOP)
 
-arr = np.transpose(np.array([sequence, second_strct, loop_type]), axes=[
-                   1, 2, 0])  # shape =(2400,107,3)
+arr = np.transpose(np.array([sequence, second_strct, loop_type]), axes=[ 1, 2, 0])  # shape =(2400,107,3)
+print(arr.shape)
+
 
 cols = [7, 9, 11, 13, 15]
 predire = np.transpose(data_train[:, cols]).tolist()
@@ -47,12 +52,14 @@ def my_model(pred_len = 68):
     inputs = Input(shape=(107,3))
     embed = Embedding(2400,200,input_length=130)(inputs)
     reshaped = Reshape((107, 600), input_shape = (107, 3, 200))(embed)
-    hidden = SpatialDropout1D(0.2)(reshaped)
-    x = Bidirectional(GRU(256, dropout=0.2, return_sequences=True, kernel_initializer='orthogonal'))(hidden)
+    x = Conv1D(512, 3,padding='same',kernel_initializer='he_uniform') (reshaped)
+    x = BatchNormalization() (x)
+    x = Activation('relu')(x)
+    x = MaxPooling1D(pool_size=2,strides=1,padding='same')(x)
     x = Bidirectional(GRU(256, dropout=0.2, return_sequences=True, kernel_initializer='orthogonal'))(x)
+    x = GRU(256, dropout=0.2, return_sequences=True, kernel_initializer='orthogonal')(x)
     x = Bidirectional(GRU(256, dropout=0.2, return_sequences=True, kernel_initializer='orthogonal'))(x)
-
-    # x = Dense(5)(hidden)
+    x = LSTM(256, dropout=0.2, return_sequences=True, kernel_initializer='orthogonal')(x)
     x = x[:, :pred_len]
     output = x #(None, 68, 5)
 
@@ -67,17 +74,17 @@ model = my_model()
 # plot_model(model, show_shapes=True, show_layer_names=True)
 print(model.summary())
 
-history_inception = model.fit(arr, y = np.array(predire).reshape(2400,68,5), epochs=10, batch_size=100)
+history_inception = model.fit(arr, y = np.array(predire).reshape(2400,68,5), epochs=5, batch_size=100)
 model.evaluate(arr, y = np.array(predire).reshape(2400,68,5))
 
-print(history_inception.history.keys())
-plt.plot(history_inception.history['accuracy'])
-plt.plot(history_inception.history['val_accuracy'])
-plt.title('Model accuracy')
-plt.ylabel('Accuracy')
-plt.xlabel('Epoch')
-plt.legend(['Train', 'Test'], loc='upper left')
-plt.show()
-plt.plot(history_inception.history['loss'])
-plt.plot(history_inception.history['val_loss'])
-plt.show()
+# print(history_inception.history.keys())
+# plt.plot(history_inception.history['accuracy'])
+# plt.plot(history_inception.history['val_accuracy'])
+# plt.title('Model accuracy')
+# plt.ylabel('Accuracy')
+# plt.xlabel('Epoch')
+# plt.legend(['Train', 'Test'], loc='upper left')
+# plt.show()
+# plt.plot(history_inception.history['loss'])
+# plt.plot(history_inception.history['val_loss'])
+# plt.show()
