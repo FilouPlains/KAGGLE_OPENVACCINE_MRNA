@@ -4,7 +4,7 @@ Here it was strip of all the code that permit to train, align and cluster. It wa
 
 ## 1. Environment setup
 
-The code is written with python Python 3.6.5. Our code requires PyTorch version >= 1.4.0, biopython version >=1.76, and C++17 compatible compiler. Please follow the instructions here: https://github.com/pytorch/pytorch#installation.
+The code is written with python Python 3.6.5. Our code requires PyTorch version >= 1.4.0 and biopython version >=1.76. It will onlye read the pretrain model given here.
 
 
 #### 1.1 Install the package and other requirements
@@ -12,7 +12,9 @@ The code is written with python Python 3.6.5. Our code requires PyTorch version 
 (Required)
 
 ```
-python setup.py install
+mamba env create --file env_RNABERT_emb.yaml
+conda env create --file env_RNABERT_emb.yaml
+conda activate env_RNABERT_emb.yaml
 ```
 
 #### 2.1 Download pre-trained RNABERT
@@ -24,7 +26,7 @@ This model has been created using a full Rfam 14.3 dataset (~400nt).
 
 ## 3. Earn embeddings
 
-To obtain the embedding vector for the RNA sequence, run 
+To obtain the embedding vector for the RNA sequence, give a RNA in a fasta and run 
 
 ```
 python MLM_SFP.py 
