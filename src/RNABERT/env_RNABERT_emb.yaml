@@ -1,0 +1,14 @@
+name: env_RNABERT_emb
+channels:
+  - conda-forge
+dependencies:
+  - attrdict=2.0.1
+  - matplotlib=3.3.4
+  - numpy=1.19.5
+  - pip=21.3.1
+  - python=3.6.15
+  - pytorch=1.9.1
+  - scikit-learn=0.24.2
+  - torchvision=0.10.1
+  - pip:
+    - biopython==1.76

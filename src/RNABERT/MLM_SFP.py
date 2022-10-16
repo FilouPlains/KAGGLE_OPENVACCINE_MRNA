@@ -4,10 +4,8 @@ import torch
 import torch.optim as optim
 import argparse
 from utils.bert import get_config, BertModel, BertForMaskedLM
-from module import Train_Module
 from dataload import DATA 
 import datetime
-import time
 from collections import OrderedDict
 
 
@@ -39,7 +37,6 @@ class TRAIN:
     """The class for controlling the training process of SFP"""
     def __init__(self, config):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.module = Train_Module(config)
     
     def model_device(self, model):
         print("device: ", self.device)
