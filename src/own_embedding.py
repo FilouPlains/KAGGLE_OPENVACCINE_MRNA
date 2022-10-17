@@ -136,11 +136,10 @@ if __name__ == "__main__":
     input_loop = Conv2D(filters=filtering, kernel_size=(1, 1),
                         padding="valid")(input_loop)
 
-    # input_data = Add()([input_seq, input_sec, input_loop, original_seq,
-    #                     original_sec, original_loop])
-    # input_sec = Add()([input_data, input_seq, input_sec, input_loop])
-    input_data = concatenate([input_seq, input_sec, input_loop], axis = 2)
-    original = original_loop
+    input_data = Add()([input_seq, input_sec, input_loop])
+    # input_ori = concatenate([original_seq, original_sec, original_loop], axis=2)
+    
+    original = input_data
 
     ###########################
     # INTERN TREATMENT ########
