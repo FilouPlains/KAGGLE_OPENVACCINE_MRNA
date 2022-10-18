@@ -1,4 +1,4 @@
-# KAGGLE_OPENVACCINE_MRNA
+#  🦙KAGGLE_OPENVACCINE_MRNA 🦙
 
 ✍ Authors:
 <center><b>BEL Alexis</b> - <b>BELAKTIB Anas</b> - <b>OUSSAREN Mohamed</b> - <b>ROUAUD Lucas</b></center>
