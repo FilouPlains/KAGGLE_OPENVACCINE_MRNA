@@ -1,4 +1,4 @@
-# RNABERT
+# 🦙RNABERT🦙
 This repo contains the code for the paper "Informative RNA-base embedding for functional RNA clustering and structural alignment". You can contact the author at akiyama@dna.bio.keio.ac.jp for any question. Please cite this paper if you use the code or system output. 
 Here it was strip of all the code that permit to train, align and cluster. It was also modified to be able to read the pre-train model on a cpu only.
 
