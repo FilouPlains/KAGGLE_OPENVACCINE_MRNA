@@ -1,35 +1,21 @@
 from turtle import shape
 import embedding as emb
 import numpy as np
-from keras import Input, Model
-from keras.layers import Dense
-from keras.layers import Bidirectional
-from keras.layers import LSTM
-from keras.layers import Masking
-from keras.layers import GRU
-from keras.layers import Embedding
-from keras.layers import Flatten
-from keras.layers import Conv1D
-from keras.layers import Conv2D
-from keras.layers import MaxPooling1D
-from keras.layers import MaxPooling2D
-from keras.layers import SpatialDropout1D
-from keras.layers import LayerNormalization
 import matplotlib.pyplot as plt
 from keras.utils.vis_utils import plot_model
-from keras.layers import Reshape
-import tensorflow as tf
-
-def MCRMSE(y_true, y_pred):
-    colwise_mse = tf.reduce_mean(tf.square(y_true - y_pred), axis=1)
-    return tf.reduce_mean(tf.sqrt(colwise_mse), axis=1)
-
-
-
-
+from keras.layers import Input
+from keras.layers import BatchNormalization
+from keras.layers import Activation
+from keras.layers import Conv2D
+from keras.layers import Add
+from keras.layers import Dense
+from keras import Model
+import modelcnn as md
+import masking
 
 
 # DATA IMPORTATION
+
 #
 # ================
 data_train: np.array = np.load("data/training.npy", allow_pickle=True)
@@ -54,38 +40,26 @@ arr = np.transpose(np.array([sequence, second_strct, loop_type]), axes=[
 cols = [7, 9, 11, 13, 15]
 predire = data_train[:, cols].tolist()
 
-# print(len(predire[0]))
-# taille_mask = len(predire)
-# mask = np.array([1]*107 + [0]*23)
 
-def my_model(pred_len = 68):
-    inputs = Input(shape=(107,3))
-    embed = Embedding(2400,200,input_length=130)(inputs)
-    reshaped = Reshape((107, 600), input_shape = (107, 3, 200))(embed)
-    hidden = SpatialDropout1D(0.2)(reshaped)
-    x = Bidirectional(GRU(256, dropout=0.2, return_sequences=True, kernel_initializer='orthogonal'))(hidden)
-    x = Bidirectional(GRU(256, dropout=0.2, return_sequences=True, kernel_initializer='orthogonal'))(x)
-    x = Bidirectional(GRU(256, dropout=0.2, return_sequences=True, kernel_initializer='orthogonal'))(x)
+input_sec = Input(shape=(2400,130, 3))
+input_sec = BatchNormalization()(input_sec)
+input_sec = Activation("relu")(input_sec)
+input_sec = Conv2D(filters=1, kernel_size=(1, 1), padding="valid")(input_sec)
+input_sec = Add()([input_sec, arr])
+input_sec = Conv2D(filters=1, kernel_size=(1, 1),
+                    padding="valid")(input_sec)
+output = input_sec
 
-    x = Bidirectional(GRU(256, dropout=0.2, return_sequences=True, kernel_initializer='orthogonal'))(x)
-    x = Bidirectional(GRU(256, dropout=0.2, return_sequences=True, kernel_initializer='orthogonal'))(x)
-    x = Bidirectional(LSTM(256, dropout=0.2, return_sequences=True, kernel_initializer='orthogonal'))(x)
-    # x = Conv1D(32, 3, activation='linear', kernel_initializer='he_uniform', input_shape=(15, 22))(embed)
-    # x = Conv1D(32, 3, activation='linear', kernel_initializer='he_uniform', input_shape=(15, 22))(x)
-    # x = Conv1D(68, 3, activation='linear', kernel_initializer='he_uniform', input_shape=(15, 22))(x)
-    x = x[:, :pred_len]
-    
-    output = Dense(5, activation='linear')(x)
+model = Model(input_sec, output)
 
-    model = Model(inputs=inputs, outputs=output)
-    model.compile(optimizer="adam", loss=MCRMSE)
-    return model
-
-model = my_model()
-
-
-# plot_model(model, show_shapes=True, show_layer_names=True)
 print(model.summary())
+
+mask = masking.masked(2400,130,1,68)
+
+modelcnn = md.modelcnn(arr,mask)
+
+
+
 
 # y = np.array(predire).reshape(2400,5,68)
 # print(y[0])
@@ -97,12 +71,13 @@ print(model.summary())
 # print("stop")
 # print(y[0][2])
 
-history_inception = model.fit(arr, y = np.array(predire).reshape(2400,68,5), epochs=10, batch_size=100)
+history_modelcnn = modelcnn.fit(arr, y = np.array(predire).reshape(2400,68,5), 
+                                epochs=10, batch_size=100)
 
 
 
-print(history_inception.history.keys())
+print(history_modelcnn.history.keys())
 plt.xlabel("Epoch")
 plt.legend(["Train", "Test"], loc="upper left")
-plt.plot(history_inception.history["loss"])
+plt.plot(history_modelcnn.history["loss"])
 plt.show()
