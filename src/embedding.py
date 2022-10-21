@@ -188,6 +188,8 @@ if __name__ == "__main__":
     tok_emb_seq: np.array = sequence + pos
     tok_emb_sec: np.array = second_strct + pos
     tok_emb_loop: np.array = loop_type + pos
+    
+    print(tok_emb_seq)
 
     # =============================
     #
