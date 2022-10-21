@@ -19,7 +19,7 @@ from keras.layers import Conv2D
 from keras.layers import Add
 from keras.layers import Dense
 from keras import Model
-import modelcnn as md
+import neural_network.cnn as md
 import masking
 
 

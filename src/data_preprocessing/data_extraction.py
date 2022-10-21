@@ -37,7 +37,7 @@ def __into_array(lst_str):
 def write_test():
     """Function which writes the testing dataset.
     """
-    with open("../data/test.json", "r", encoding="utf-8") as file:
+    with open("../../data/test.json", "r", encoding="utf-8") as file:
         data = None
 
         for line in file:
@@ -72,7 +72,7 @@ def write_test():
 def write_train():
     """Function which writes the training dataset.
     """
-    with open("../data/train.json", "r", encoding="utf-8") as file:
+    with open("../../data/train.json", "r", encoding="utf-8") as file:
         data = None
 
         for line in file:

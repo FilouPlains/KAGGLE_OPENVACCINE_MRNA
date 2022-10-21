@@ -1,4 +1,4 @@
-"""Create en embedding matrix with given `string` data.
+"""Create an embedding matrix with given `string` data.
 """
 
 __authors__ = ["BEL Alexis", "BELAKTIB Anas", "OUSSAREN Mohamed",
