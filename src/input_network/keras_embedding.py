@@ -10,13 +10,13 @@ __version__ = "1.0.0"
 __copyright__ = "CC BY-SA"
 
 # [E]
-import embedding as emb
+import input_network.embedding as emb
 # [N]
 import numpy as np
 
 # [K]
 from keras import Input
-from keras.layers import Embedding, Conv2D
+from keras.layers import Embedding, Conv1D, Reshape
 
 
 def keras_embedding(filtering=1):
@@ -33,14 +33,17 @@ def keras_embedding(filtering=1):
         A keras input embedding.
     """
     # Set the input shape.
-    inputs = Input(shape=(107, 3))
+    inputs = Input(shape=(130, 3))
+    original = inputs
+
     # Embedding of the data.
-    inputs = Embedding(8, 3, input_length=130)(inputs)
+    inputs = Embedding(input_dim=15, output_dim=1, input_length=130)(inputs)
+    inputs = Reshape((130, 3), input_shape = (130, 3, 1))(inputs)
     # Convolution layer to have a 1 at the end.
-    inputs = Conv2D(filters=filtering, kernel_size=(1, 1),
+    inputs = Conv1D(filters=filtering, kernel_size=(1),
                     padding="valid")(inputs)
 
-    return inputs
+    return inputs, original
 
 
 def concat_data(data: np.array) -> np.array:

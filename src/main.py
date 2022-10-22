@@ -15,6 +15,7 @@ import numpy as np
 import input_network.own_embedding as oweb
 import input_network.embedding as emb
 import input_network.masking as mask
+import input_network.keras_embedding as kreb
 
 import neural_network.cnn as cnn
 
@@ -54,4 +55,9 @@ if __name__ == "__main__":
     inputs = Add()([input_seq, input_sec, input_loop])
 
     model = cnn.cnn(inputs, [orig_seq, orig_sec, orig_loop], Input((130, 5)))
+    print(model.summary())
+
+    inputs_2, original_2 = kreb.keras_embedding(120)
+
+    model = cnn.cnn(inputs_2, [original_2], Input((130, 5)))
     print(model.summary())
