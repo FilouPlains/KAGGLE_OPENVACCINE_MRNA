@@ -17,6 +17,8 @@ import input_network.embedding as emb
 import input_network.masking as mask
 import input_network.keras_embedding as kreb
 
+import parsing as prs
+
 import neural_network.cnn as cnn
 
 from keras.layers import Add
@@ -24,6 +26,8 @@ from keras import Input
 
 
 if __name__ == "__main__":
+    arguments = parsing()
+
     # ================
     #
     # DATA IMPORTATION
@@ -42,7 +46,7 @@ if __name__ == "__main__":
     emb_loop: np.array = oweb.input_embedding(data_train[:, 3], emb.LOOP)
 
     mask = mask.mask(2400, 130, 5, 68)
-    
+
     keras_input: np.array = kreb.concat_data(data_train)
 
     # =======================
@@ -72,4 +76,3 @@ if __name__ == "__main__":
 
     model = cnn.cnn(inputs_3, [original_3], Input((130, 5)))
     print(model.summary())
-    
