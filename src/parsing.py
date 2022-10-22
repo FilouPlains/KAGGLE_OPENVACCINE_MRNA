@@ -161,10 +161,9 @@ def parsing():
         # than only one neural network is ask).
         if argument["cnn"] + argument["inception"] > 1:
             sys.exit("\n[Err## 6] Give too much embedding parameters. Please, "
-                                "select only one.\n\t - "
-                                f"[-oe, --own_embedding]: {argument['cnn']}\n"
-                                "\t - [-re, --rnabert_embedding]: "
-                                f"{argument['inception']}\n")
+                     "select only one.\n\t - [-oe, --own_embedding]: "
+                     f"{argument['cnn']}\n\t - [-re, --rnabert_embedding]: "
+                     f"{argument['inception']}\n")
         elif argument["cnn"] + argument["inception"] == 0:
             print("=" * 80 + "\n")
             print("- No network given, default one 'CNN' select.\n")

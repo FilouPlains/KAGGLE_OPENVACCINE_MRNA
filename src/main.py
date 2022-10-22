@@ -17,12 +17,12 @@ import input_network.embedding as emb
 import input_network.masking as mask
 import input_network.keras_embedding as kreb
 
-import parsing as prs
-
 import neural_network.cnn as cnn
 
 from keras.layers import Add
 from keras import Input
+
+from parsing import parsing
 
 
 if __name__ == "__main__":
