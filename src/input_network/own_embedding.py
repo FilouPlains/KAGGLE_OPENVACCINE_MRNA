@@ -10,12 +10,12 @@ __version__ = "1.0.0"
 __copyright__ = "CC BY-SA"
 
 # E
-import embedding as emb
+import input_network.embedding as emb
 # N
 import numpy as np
 
 # K
-from keras.layers import Activation, Add, BatchNormalization, Conv2D
+from keras.layers import Activation, Add, BatchNormalization, Conv2D, Conv1D
 from keras import Input
 
 
@@ -38,13 +38,13 @@ def normalize_input_shape(shape: "tuple[int]", filtering: int = 1):
     original = inputs
     inputs = BatchNormalization()(inputs)
     inputs = Activation("relu")(inputs)
-    inputs = Conv2D(filters=filtering, kernel_size=(1, 1),
+    inputs = Conv1D(filters=filtering, kernel_size=(1),
                     padding="valid")(inputs)
     inputs = Add()([inputs, original])
-    inputs = Conv2D(filters=filtering, kernel_size=(1, 1),
+    inputs = Conv1D(filters=filtering, kernel_size=(1),
                     padding="valid")(inputs)
 
-    return inputs
+    return inputs, original
 
 
 def input_embedding(data: np.array, encoder: "dict[str, int]") -> np.array:
