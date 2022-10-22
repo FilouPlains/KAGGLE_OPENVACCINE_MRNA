@@ -40,9 +40,6 @@ def normalize_input_shape(shape: "tuple[int]", filtering: int = 1):
     inputs = Activation("relu")(inputs)
     inputs = Conv1D(filters=filtering, kernel_size=(1),
                     padding="valid")(inputs)
-    inputs = Add()([inputs, original])
-    inputs = Conv1D(filters=filtering, kernel_size=(1),
-                    padding="valid")(inputs)
 
     return inputs, original
 

@@ -39,7 +39,7 @@ if __name__ == "__main__":
     emb_seq: np.array = oweb.input_embedding(data_train[:, 1], emb.BASE)
     emb_sec: np.array = oweb.input_embedding(data_train[:, 2], emb.PAIRED)
     emb_loop: np.array = oweb.input_embedding(data_train[:, 3], emb.LOOP)
-    
+
     mask = mask.mask(2400, 130, 5, 68)
 
     # =======================
@@ -47,9 +47,9 @@ if __name__ == "__main__":
     # CREATING NEURAL NETWORK
     #
     # =======================
-    input_seq, orig_seq = oweb.normalize_input_shape((130, 4))
-    input_sec, orig_sec = oweb.normalize_input_shape((130, 3))
-    input_loop, orig_loop = oweb.normalize_input_shape((130, 7))
+    input_seq, orig_seq = oweb.normalize_input_shape((130, 4), 120)
+    input_sec, orig_sec = oweb.normalize_input_shape((130, 3), 120)
+    input_loop, orig_loop = oweb.normalize_input_shape((130, 7), 120)
 
     inputs = Add()([input_seq, input_sec, input_loop])
 
