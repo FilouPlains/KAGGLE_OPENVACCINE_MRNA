@@ -11,8 +11,10 @@ from neural_network.cnn import cnn
 import input_network.keras_embedding as kreb
 from keras import Input
 
+import input_network.neural_network.cnn as cnn
 
-def non_cross_val(model_cnn, data_input, masked, data_output, name_file):
+
+def cross_val(is_nn_cnn, inputs, original, data_input, mask, data_output):
     """Calculate the mcmre of train and val and save the figure.
 
     Parameters
@@ -29,20 +31,19 @@ def non_cross_val(model_cnn, data_input, masked, data_output, name_file):
         Name of the file for saving the figure
 
     """
-    # fit the model
-    history = model_cnn.fit([data_input, masked], data_output,
-                            validation_split=0.2, epochs=20, batch_size=100)
+    if is_nn_cnn:
+        model = cnn.cnn(inputs, original, Input((130, 5)))
+    else:
+        model = cnn.cnn(inputs, original, Input((130, 5)))
 
-    # Create the figure of our non_cross_val
-    plt.plot(history.history['loss'])
-    plt.plot(history.history['val_loss'])
-    plt.title('Model accuracy')
-    plt.ylabel('Accuracy')
-    plt.xlabel('Epoch')
-    plt.legend(['Train', 'Validation'], loc='upper left')
-    plt.show()
-    # Save the figure
-    plt.savefig(name_file)
+    print(model.summary())
+
+    # Fitting the model
+    history = model.fit([data_input, mask], data_output, validation_split=0.2,
+                        epochs=20, batch_size=100)
+
+    return model
+
 
 
 if __name__ == "__main__":
@@ -84,7 +85,7 @@ if __name__ == "__main__":
     model1 = cnn(m_inputs, [orig_seq, orig_sec, orig_loop], Input((130, 5)))
 
     # Validation
-    non_cross_val(model1, [emb_seq, emb_sec, emb_loop],
+    cross_val(model1, [emb_seq, emb_sec, emb_loop],
                   masked, predire, "own_fig")
 
     # keras embedding
@@ -107,7 +108,7 @@ if __name__ == "__main__":
     model2 = cnn(inputs_2, [original_2], Input((130, 5)))
 
     # Validation
-    non_cross_val(model2, data_input_yes, masked, predire, "keras_fig")
+    cross_val(model2, data_input_yes, masked, predire, "keras_fig")
 
     # RNABERT embedding
     # Formatting the shape of input for the model 3
@@ -123,4 +124,4 @@ if __name__ == "__main__":
     model3 = cnn(inputs_3, [original_3], Input((130, 5)))
 
     # Validation
-    non_cross_val(model3, seq_input_yes, masked, predire, "RNABERT_fig")
+    cross_val(model3, seq_input_yes, masked, predire, "RNABERT_fig")

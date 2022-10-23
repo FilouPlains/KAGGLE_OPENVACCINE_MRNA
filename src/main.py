@@ -19,8 +19,8 @@ import input_network.own_embedding as oweb
 import input_network.embedding as emb
 import input_network.masking as mask
 import input_network.keras_embedding as kreb
+import input_network.cross_validation as cv
 
-import neural_network.cnn as cnn
 
 from keras.layers import Add
 from keras import Input
@@ -52,12 +52,8 @@ if __name__ == "__main__":
         original = [inputs]
 
     if arg["predict_data"] is None:
-        if arg["cnn"]:
-            model = cnn.cnn(inputs, original, Input((130, 5)))
-        else:
-            pass
-
-        print(model.summary())
+        cv.cross_val(arg["cnn"], inputs, original, data_input, mask,
+                     data_output)
     else:
-        pass
+        
 

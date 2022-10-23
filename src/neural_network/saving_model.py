@@ -11,6 +11,7 @@ import numpy as np
 from input_network.masking import mask, format_input
 from neural_network.cnn import __mcrmse
 
+
 def saving_model(model, output_file):
     """ Save a model in the folder data/model
         Parameters
@@ -22,14 +23,19 @@ def saving_model(model, output_file):
     """
     output_file_a = output_file +".json"
     output_file_b = output_file +"_weight.h5"
-    # Save the weight
-    model.save_weights(output_file_b)
-    # Save the architecture of the model with the custom layer
-    model_json = model.to_json()
-    with open(output_file_a, "w") as json_file:
-        json_file.write(model_json)
-    print(f"Saved model {output_file_a} and weight {output_file_b} to disk")
 
+    # Save the weight.
+    model.save_weights(output_file_b)
+
+    # Save the architecture of the model with the custom layer.
+    model_json = model.to_json()
+
+    with open(output_file_a, "w", encoding="utf-8") as json_file:
+        json_file.write(model_json)
+
+    print("=" * 80 + "\n")
+    print(f"Saved model {output_file_a} and weight {output_file_b}.")
+    print("=" * 80 + "\n")
 
 def loading_model(model_file):
     """ Load a model from the folder data/model
@@ -40,20 +46,27 @@ def loading_model(model_file):
     Return :
         Fitted model
     """
-    # load the architecture of the model
-    with open(model_file, 'r') as json_file:
+    # Load the architecture of the model.
+    with open(model_file, "r", encoding="utf-8") as json_file:
         json_savedModel = json_file.read()
+
     loaded_model = model_from_json(json_savedModel)
-    # create tha path to the weight file
+
+    # Create tha path to the weight file.
     output_file_b = os.path.basename(model_file).split(".")[0] +"_weight.h5"
-    # load weights into new model
+
+    # Load weights into new model.
     loaded_model.load_weights(output_file_b)
     loaded_model.compile(optimizer="adam", loss=__mcrmse)
-    print(f"Loaded model {model_file} and weight {output_file_b} from disk")
+
+    print("=" * 80 + "\n")
+    print(f"Model {model_file} and weight {output_file_b} loaded.")
+    print("=" * 80 + "\n")
+
     return loaded_model
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     # Output for the 3 model
     inputs_3 = Input(shape=(130, 120))
     original_3 = inputs_3

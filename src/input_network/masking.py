@@ -36,7 +36,9 @@ def mask(line: int, col: int, depth: int, desire_output: int) -> np.array:
 
     return masking
 
-def mask_for_output_test(data_test, line: int, col: int, depth: int) -> np.array:
+
+def mask_test(data_test, line: int, col: int, depth: int) \
+        -> np.array:
     """Return a mask to apply to a neural network output for our test.
 
     Parameters
@@ -56,14 +58,17 @@ def mask_for_output_test(data_test, line: int, col: int, depth: int) -> np.array
         The 3D matrix mask.
     """
     masking: np.array = np.zeros((line, col, depth))
+
     for i in range(line):
         if len(data_test[i]) == 107:
             masking[:, 0:68, ] = 1
         if len(data_test[i]) == 130:
             masking[:, 0:91, ] = 1
+
     return masking
 
-def format_input(input_seq ,line: int, depth: int):
+
+def format_input(input_seq, line: int, depth: int):
     """Return a input to apply to a neural network input for our train.
 
     Parameters
@@ -81,13 +86,21 @@ def format_input(input_seq ,line: int, depth: int):
         Input with sequence of 130 of our network
     """
     seq_input_yes: np.array = np.zeros((line, 23, depth))
-    seq_input_yes: np.array =  np.concatenate((input_seq, seq_input_yes), axis= 1)
+
+    seq_input_yes: np.array = np.concatenate((input_seq, seq_input_yes),
+                                             axis=1)
+
     return seq_input_yes
+
 
 if __name__ == "__main__":
     # Load data to see the lengt of the sequences
-    data_test: np.array = np.load("../../data/bert_test.npy", allow_pickle=True)
-    mask_for_output_test(data_test, 3634, 130, 5)
-    data_test: np.array = np.load("../../data/bert_train.npy", allow_pickle=True)
+    data_test: np.array = np.load("../../data/bert_test.npy",
+                                  allow_pickle=True)
+
+    print(mask_test(data_test, 3634, 130, 5))
+
+    data_test: np.array = np.load("../../data/bert_train.npy",
+                                  allow_pickle=True)
+
     print(format_input(data_test, 2400, 120))
-    pass
