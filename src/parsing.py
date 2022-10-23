@@ -64,7 +64,7 @@ def parsing():
         "or predict data."
     )
     parser.add_argument(
-        "-pred, --predict_data",
+        "--pred, --predict_data",
         required=False,
         dest="predict_data",
         type=str,
@@ -78,7 +78,7 @@ def parsing():
     # == OPTIONAL.
     # Which neural network to use.
     parser.add_argument(
-        "-cnn",
+        "--cnn",
         required=False,
         dest="cnn",
         action="store_true",
@@ -86,7 +86,7 @@ def parsing():
               "network to train will be a `CNN` one.")
     )
     parser.add_argument(
-        "-ginc, --google_inception",
+        "--inc, --inception",
         required=False,
         dest="inception",
         action="store_true",
@@ -95,7 +95,7 @@ def parsing():
     )
     # Which embedding input to use.
     parser.add_argument(
-        "-ke, --keras_embedding",
+        "--ke, --keras_embedding",
         required=False,
         dest="keras_embedding",
         action="store_true",
@@ -103,7 +103,7 @@ def parsing():
               "transform as a keras embedding.")
     )
     parser.add_argument(
-        "-hme, --homemade_embedding",
+        "--owe, --own_embedding",
         required=False,
         dest="own_embedding",
         action="store_true",
@@ -111,7 +111,7 @@ def parsing():
               "is transform as a embedding create by our own way.")
     )
     parser.add_argument(
-        "-re, --rnabert_embedding",
+        "--re, --rnabert_embedding",
         required=False,
         dest="rnabert_embedding",
         action="store_true",
@@ -132,11 +132,9 @@ def parsing():
     if not os.path.exists(argument["input"]):
         sys.exit(f"\n[Err## 1] The input file '{argument['input']}' does not "
                  "exist. Please check this given file.")
-    else:
-        print("ok")
-    if not os.path.exists(argument["output"]):
-        sys.exit(f"\n[Err## 2] The output file '{argument['output']}' does not "
-                 "exist. Please check this given file.")
+    elif os.path.exists(argument["output"]):
+        sys.exit(f"\n[Err## 2] The output file '{argument['output']}' does "
+                 "exist. Please change the output name file.")
 
     predict_data = argument["predict_data"] is None
 
@@ -147,15 +145,14 @@ def parsing():
                 "program will try, with input data, to train a neural "
                 "network.")
         print("\n  ".join(wrap(line, 80)))
-        line = ("- /!\ WARNING: Choose the same input embedding method used to "
-                "train the previous neural network.")
+        line = ("- /!\\ WARNING: Choose the same input embedding method used "
+                "to train the previous neural network.")
         print("\n  ".join(wrap(line, 80)))
         print("\n" + "=" * 80 + "\n")
 
         # Setting extensions to check.
         input_extension = ["npy"]
-        # output_extension = ["NEURAL NETWORK"]
-        output_extension = ["npy"]
+        output_extension = ["json"]
 
         # Checking which neural network is select (set default choice and check
         # than only one neural network is ask).
@@ -180,8 +177,7 @@ def parsing():
         print("\n" + "=" * 80 + "\n")
 
         # Setting extensions to check.
-        # input_extension = ["NEURAL NETWORK"]
-        input_extension = ["npy"]
+        input_extension = ["json"]
         output_extension = ["npy", "csv", "tsv"]
 
         prediction_ext = argument["predict_data"].split(".")[-1]
