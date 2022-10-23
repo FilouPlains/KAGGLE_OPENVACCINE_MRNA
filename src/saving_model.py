@@ -6,6 +6,10 @@ from keras.layers import Add
 from keras import Input
 from tensorflow.keras.models import  model_from_json
 import os
+from validation import non_cross_val
+import numpy as np
+from input_network.masking import mask, format_input
+from neural_network.cnn import __mcrmse
 
 def saving_model(model, output_file):
     """ Save a model in the folder data/model
@@ -37,28 +41,28 @@ def loading_model(model_file):
         Fitted model
     """
     # load the architecture of the model
-    json_file = open(model_file, 'r')
-    loaded_model_json = json_file.read()
-    json_file.close()
-    loaded_model = model_from_json(loaded_model_json)
+    with open(model_file, 'r') as json_file:
+        json_savedModel = json_file.read()
+    loaded_model = model_from_json(json_savedModel)
     # create tha path to the weight file
-    output_file_b = os.path.dirname(model_file) + "/" + os.path.basename(model_file).split(".")[0] +"_weight.h5"
+    output_file_b = os.path.basename(model_file).split(".")[0] +"_weight.h5"
     # load weights into new model
     loaded_model.load_weights(output_file_b)
+    loaded_model.compile(optimizer="adam", loss=__mcrmse)
     print(f"Loaded model {model_file} and weight {output_file_b} from disk")
     return loaded_model
 
 if __name__ == "__main__":
 
-    input_seq, orig_seq = oweb.normalize_input_shape((130, 4), 120)
-    input_sec, orig_sec = oweb.normalize_input_shape((130, 3), 120)
-    input_loop, orig_loop = oweb.normalize_input_shape((130, 7), 120)
-    m_inputs = Add()([input_seq, input_sec, input_loop])
+    # Output for the 3 model
+    inputs_3 = Input(shape=(130, 120))
+    original_3 = inputs_3
 
-    # Creating model 1
-    model1 = cnn(m_inputs, [orig_seq, orig_sec, orig_loop], Input((130, 5)))
+    # Creating model 3
+    model3 = cnn(inputs_3, [original_3], Input((130, 5)))
     # Saving model    
-    saving_model(model1, "../data/model_test")
+    saving_model(model3, "../data/model_test")
     # loading model
     model2 = loading_model("../data/model_test.json")
+    print(model2.summary())
     
