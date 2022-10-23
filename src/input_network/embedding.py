@@ -167,7 +167,7 @@ if __name__ == "__main__":
     # DATA IMPORTATION
     #
     # ================
-    data_train: np.array = np.load("data/training.npy", allow_pickle=True)
+    data_train: np.array = np.load("data/train.npy", allow_pickle=True)
 
     # ======================================
     #
@@ -179,7 +179,7 @@ if __name__ == "__main__":
     second_strct: np.array = hot_encoding(dataset=data_train[:, 2],
                                           encoder=PAIRED)
     loop_type: np.array = hot_encoding(dataset=data_train[:, 3], encoder=LOOP)
-
+    
     # Creating positional embedding matrix.
     dim: tuple = sequence.shape
     pos: np.array = positional_embedding(length=dim[0], seq_len=dim[1])

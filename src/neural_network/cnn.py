@@ -9,11 +9,14 @@ __date__ = "23/09/2022"
 __version__ = "1.0.0"
 __copyright__ = "CC BY-SA"
 
-
+# [T]
 import tensorflow as tf
 
+# [K]
 from keras import Model
 from keras.layers import Dense, Conv1D, Multiply
+# [N]
+from neural_network.mcrmse import mcrmse
 
 
 def __mcrmse(y_true, y_pred):
@@ -43,7 +46,7 @@ def cnn(inputs, original, mask):
     ----------
     inputs : keras.Input
         The input data.
-    inputs : keras.Input
+    original : keras.Input
         The original input data.
     mask : keras.Input
         The mask.
@@ -73,6 +76,6 @@ def cnn(inputs, original, mask):
     model = Model(inputs=original + [mask], outputs=output)
 
     # Compile then return the model.
-    model.compile(optimizer="adam", loss=__mcrmse)
+    model.compile(optimizer="adam", loss=mcrmse)
     
     return model

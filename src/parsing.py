@@ -152,7 +152,7 @@ def parsing():
 
         # Setting extensions to check.
         input_extension = ["npy"]
-        output_extension = ["json"]
+        output_extension = ["h5"]
 
         # Checking which neural network is select (set default choice and check
         # than only one neural network is ask).

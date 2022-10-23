@@ -37,8 +37,7 @@ def mask(line: int, col: int, depth: int, desire_output: int) -> np.array:
     return masking
 
 
-def mask_test(data_test, line: int, col: int, depth: int) \
-        -> np.array:
+def mask_test(data_test, line: int, col: int, depth: int) -> np.array:
     """Return a mask to apply to a neural network output for our test.
 
     Parameters

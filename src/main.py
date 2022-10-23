@@ -1,16 +1,27 @@
 """Main program to launch the neural network learning.
+
+Usage
+-----
+    Enter in the terminal `python3 src/main.py --help` to get the detailed 
+    help generate by `argparse`.
 """
 
 from parsing import parsing
+
 from keras import Input
 from keras.layers import Add
+
 import neural_network.saving_model as save
 import neural_network.cross_validation as cv
+
 import input_network.keras_embedding as kreb
 import input_network.masking as mask
 import input_network.embedding as emb
 import input_network.own_embedding as oweb
+
 import numpy as np
+
+
 __authors__ = ["BEL Alexis", "BELAKTIB Anas", "OUSSAREN Mohamed",
                "ROUAUD Lucas"]
 __contact__ = ["alexbel28@yahoo.fr", "anas.belaktib@etu.u-paris.fr",
@@ -21,6 +32,8 @@ __copyright__ = "CC BY-SA"
 
 
 import os
+
+
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 
@@ -28,14 +41,37 @@ if __name__ == "__main__":
     arg = parsing()
     file_out = arg["output"]
 
+    # Importing data for the training.
     if arg["predict_data"] is None:
         dataset: np.array = np.load(arg["input"], allow_pickle=True)
+        masked = mask.mask(2400, 130, 5, 68)
+
+        # Generate output data.
+        COLS = [7, 9, 11, 13, 15]
+
+        data_output = dataset[:, COLS].tolist()
+        data_output = np.array(data_output).reshape(2400, 68, 5)
+
+        # To make data from 107 base length to 130 base length.
+        full_output = np.zeros((2400, 62, 5))
+
+        data_output = np.concatenate((data_output, full_output), axis=1)
+
+    # Importing data for the `Y` prediction.
     else:
         model = arg["input"]
         dataset: np.array = np.load(arg["predict_data"], allow_pickle=True)
+        masked = mask.mask_test(dataset, 3634, 130, 5)
 
+        model = save.loading_model(arg["input"])
+
+    # Setting the embedding input.
     if arg["keras_embedding"]:
         inputs, original = kreb.keras_embedding(120)
+
+        # Modifying data input.
+        data_input = kreb.concat_data(dataset)
+        data_input = mask.format_input(data_input, 2400, 3)
     elif arg["own_embedding"]:
         input_seq, orig_seq = oweb.normalize_input_shape((130, 4), 120)
         input_sec, orig_sec = oweb.normalize_input_shape((130, 3), 120)
@@ -47,10 +83,12 @@ if __name__ == "__main__":
         inputs = Input(shape=(130, 120))
         original = [inputs]
 
+    # Training a neural network.
     if arg["predict_data"] is None:
-        cv.cross_val(arg["cnn"], inputs, original, data_input, masked,
-                     data_output)
+        model, history = cv.cross_val(arg["cnn"], inputs, original, data_input,
+                                      masked, data_output)
 
         save.saving_model(model, arg["output"])
+    # Predict `Y`.
     else:
-        model = save.loading_model(arg["input"])
+        pass
