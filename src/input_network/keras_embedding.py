@@ -43,7 +43,7 @@ def keras_embedding(filtering=1):
     inputs = Conv1D(filters=filtering, kernel_size=(1),
                     padding="valid")(inputs)
 
-    return inputs, original
+    return inputs, [original]
 
 
 def concat_data(data: np.array) -> np.array:

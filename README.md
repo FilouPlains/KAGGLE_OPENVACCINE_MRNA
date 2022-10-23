@@ -1,11 +1,10 @@
-# <center> 🦙 KAGGLE_OPENVACCINE_MRNA 🦙</center>
+# 🦙 KAGGLE_OPENVACCINE_MRNA 🦙
 
 ✍ Authors:
-<center><b>BEL Alexis</b> - <b>BELAKTIB Anas</b> - <b>OUSSAREN Mohamed</b> - <b>ROUAUD Lucas</b></center>
 
-<center>Master 2 Bio-informatics at <em>Univerité de Paris</em>.</center>
+**BEL Alexis** - **BELAKTIB Anas** - **OUSSAREN Mohamed** - **ROUAUD Lucas**
 
-</br>
+Master 2 Bio-informatics at *Univerité de Paris*.
 
 [![Python 3.9.7](https://img.shields.io/badge/python-%E2%89%A5_3.9.7-blue.svg)](https://www.python.org/downloads/release/python-397/)
 [![Conda 3.10.6](https://img.shields.io/badge/miniconda-%E2%89%A5_3.10.6-green.svg)](https://docs.conda.io/en/latest/miniconda.html)
