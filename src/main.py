@@ -79,9 +79,22 @@ if __name__ == "__main__":
 
         inputs = Add()([input_seq, input_sec, input_loop])
         original = [orig_seq, orig_sec, orig_loop]
+
+        # Modifying data unput.
+        emb_seq = oweb.input_embedding(dataset[:, 1], emb.BASE)
+        emb_seq = mask.format_input(emb_seq, 2400, 4)
+
+        emb_sec = oweb.input_embedding(dataset[:, 2], emb.PAIRED)
+        emb_sec = mask.format_input(emb_sec, 2400, 3)
+
+        emb_loop = oweb.input_embedding(dataset[:, 3], emb.LOOP)
+        emb_loop = mask.format_input(emb_loop, 2400, 7)
+
+        data_input = [emb_seq, emb_sec, emb_loop]
     elif arg["rnabert_embedding"]:
         inputs = Input(shape=(130, 120))
         original = [inputs]
+        data_input = dataset
 
     # Training a neural network.
     if arg["predict_data"] is None:
@@ -91,4 +104,7 @@ if __name__ == "__main__":
         save.saving_model(model, arg["output"])
     # Predict `Y`.
     else:
-        pass
+        model = save.loading_model(arg["output"])
+        predict_values = model.predict(arg["predict_data"])
+        print(predict_values)
+        print(type(predict_values))

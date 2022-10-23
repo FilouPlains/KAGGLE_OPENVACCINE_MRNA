@@ -40,7 +40,7 @@ def saving_model(model, output_file):
     # Save the architecture of the model with the custom layer.
     model_json = model.to_json()
 
-    with open(output_file, "w", encoding="utf-8") as json_file:
+    with open(output_file[:-3] + ".json", "w", encoding="utf-8") as json_file:
         json_file.write(model_json)
 
     print("=" * 80 + "\n")

@@ -16,7 +16,8 @@ import neural_network.cnn as cnn
 import neural_network.inception as inc
 
 
-EPOCHS = 1
+EPOCHS = 3
+BATCH_SIZE = 100
 
 
 def cross_val(is_nn_cnn, inputs, original, data_input, mask, data_output):
@@ -45,6 +46,18 @@ def cross_val(is_nn_cnn, inputs, original, data_input, mask, data_output):
 
     # Fitting the model
     history = model.fit([data_input, mask], data_output, validation_split=0.2,
-                        epochs=EPOCHS, batch_size=100)
+                        epochs=EPOCHS, batch_size=BATCH_SIZE)
+
+    print("\n" + "=" * 80 + "\n")
+    print("Writting `data/history.csv` to access to 'LOSS' and 'VAL_LOSS'.\n")
+    print("=" * 80 + "\n")
+
+    with open("data/history.csv", "w", encoding="utf8") as file:
+        file.write(f"LOSS,VAL_LOSS\n")
+
+        for i, loss in enumerate(history.history["loss"]):
+            file.write(f"{loss},{history.history['val_loss'][i]}\n")
+
+        file.close()
 
     return model, history
