@@ -152,8 +152,7 @@ def parsing():
 
         # Setting extensions to check.
         input_extension = ["npy"]
-        # output_extension = ["NEURAL NETWORK"]
-        output_extension = ["npy"]
+        output_extension = ["json"]
 
         # Checking which neural network is select (set default choice and check
         # than only one neural network is ask).
@@ -178,8 +177,7 @@ def parsing():
         print("\n" + "=" * 80 + "\n")
 
         # Setting extensions to check.
-        # input_extension = ["NEURAL NETWORK"]
-        input_extension = ["npy"]
+        input_extension = ["json"]
         output_extension = ["npy", "csv", "tsv"]
 
         prediction_ext = argument["predict_data"].split(".")[-1]

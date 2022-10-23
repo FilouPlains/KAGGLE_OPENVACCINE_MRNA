@@ -42,8 +42,7 @@ def cross_val(is_nn_cnn, inputs, original, data_input, mask, data_output):
     history = model.fit([data_input, mask], data_output, validation_split=0.2,
                         epochs=20, batch_size=100)
 
-    return model
-
+    return model, history
 
 
 if __name__ == "__main__":
@@ -86,7 +85,7 @@ if __name__ == "__main__":
 
     # Validation
     cross_val(model1, [emb_seq, emb_sec, emb_loop],
-                  masked, predire, "own_fig")
+              masked, predire, "own_fig")
 
     # keras embedding
     # Input for the model 2

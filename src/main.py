@@ -1,6 +1,16 @@
 """Main program to launch the neural network learning.
 """
 
+from parsing import parsing
+from keras import Input
+from keras.layers import Add
+import neural_network.saving_model as save
+import neural_network.cross_validation as cv
+import input_network.keras_embedding as kreb
+import input_network.masking as mask
+import input_network.embedding as emb
+import input_network.own_embedding as oweb
+import numpy as np
 __authors__ = ["BEL Alexis", "BELAKTIB Anas", "OUSSAREN Mohamed",
                "ROUAUD Lucas"]
 __contact__ = ["alexbel28@yahoo.fr", "anas.belaktib@etu.u-paris.fr",
@@ -12,20 +22,6 @@ __copyright__ = "CC BY-SA"
 
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
-
-import numpy as np
-
-import input_network.own_embedding as oweb
-import input_network.embedding as emb
-import input_network.masking as mask
-import input_network.keras_embedding as kreb
-import input_network.cross_validation as cv
-
-
-from keras.layers import Add
-from keras import Input
-
-from parsing import parsing
 
 
 if __name__ == "__main__":
@@ -52,8 +48,9 @@ if __name__ == "__main__":
         original = [inputs]
 
     if arg["predict_data"] is None:
-        cv.cross_val(arg["cnn"], inputs, original, data_input, mask,
+        cv.cross_val(arg["cnn"], inputs, original, data_input, masked,
                      data_output)
-    else:
-        
 
+        save.saving_model(model, arg["output"])
+    else:
+        model = save.loading_model(arg["input"])

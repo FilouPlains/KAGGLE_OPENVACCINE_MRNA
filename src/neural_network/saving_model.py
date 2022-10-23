@@ -4,7 +4,7 @@ from neural_network.cnn import cnn
 import input_network.own_embedding as oweb
 from keras.layers import Add
 from keras import Input
-from tensorflow.keras.models import  model_from_json
+from tensorflow.keras.models import model_from_json
 import os
 from validation import non_cross_val
 import numpy as np
@@ -21,8 +21,8 @@ def saving_model(model, output_file):
     output_file : 
         Name of the folder which will contain the model
     """
-    output_file_a = output_file +".json"
-    output_file_b = output_file +"_weight.h5"
+    output_file_a = output_file + ".json"
+    output_file_b = output_file + "_weight.h5"
 
     # Save the weight.
     model.save_weights(output_file_b)
@@ -36,6 +36,7 @@ def saving_model(model, output_file):
     print("=" * 80 + "\n")
     print(f"Saved model {output_file_a} and weight {output_file_b}.")
     print("=" * 80 + "\n")
+
 
 def loading_model(model_file):
     """ Load a model from the folder data/model
@@ -53,7 +54,7 @@ def loading_model(model_file):
     loaded_model = model_from_json(json_savedModel)
 
     # Create tha path to the weight file.
-    output_file_b = os.path.basename(model_file).split(".")[0] +"_weight.h5"
+    output_file_b = os.path.basename(model_file).split(".")[0] + "_weight.h5"
 
     # Load weights into new model.
     loaded_model.load_weights(output_file_b)
@@ -73,9 +74,8 @@ if __name__ == "__main__":
 
     # Creating model 3
     model3 = cnn(inputs_3, [original_3], Input((130, 5)))
-    # Saving model    
+    # Saving model
     saving_model(model3, "../data/model_test")
     # loading model
     model2 = loading_model("../data/model_test.json")
     print(model2.summary())
-    
