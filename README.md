@@ -37,7 +37,17 @@ Because this project is done to validate a course, one mandatory criterion is cr
 
 ## 🚀 Launching this program
 
-### General method  ⚙️
+### 🐍 Conda environment
+
+To use this program, you will need to create a conda environment like so:
+
+```bash
+mamba env create --file kaggle_reseau.yml
+conda env create --file kaggle_reseau.yaml
+conda activate reseau
+```
+
+### ⚙️ General method
 
 To launch this program, simply use the next commands (after the activation of the conda environment):
 
@@ -45,7 +55,7 @@ To launch this program, simply use the next commands (after the activation of th
 python3 src/main.py --help
 ```
 
-### Parameters description 🔎
+### 🔎 Parameters description
 
 Next, the parameters are described:
 
@@ -53,8 +63,8 @@ Next, the parameters are described:
 
 |        **Parameters**        | **Parameters name**                                  | **Usage**                                               |
 | :--------------------------: | :--------------------------------------------------- | :------------------------------------------------------ |
-|     **\***`-i, --input`      | Input `X` + `Y` data/neural network trained          | Add an `.npy` data file or a `.`   neural network file. |
-|     **\***`-o, --output`     | Output data `Y`/neural network finish to be trained. | Add an `.npy` data file or a `.`   neural network file. |
+|     **\***`-i, --input`      | Input `X` + `Y` data/neural network trained          | Add an `.npy` data file or a `.h5` neural network file. |
+|     **\***`-o, --output`     | Output data `Y`/neural network finish to be trained. | Add an `.npy` data file or a `.h5`   neural network file. |
 |   `-pred, --predict_data`    | Output predicted `Y` data.                           | Add an `.npy` data file.                                |
 |            `-cnn`            | Convolutional Neuronal Network.                      | Add like a `True`.                                      |
 | `-ginc, --google_inception`  | Google inception's neural network.                   | Add like a `True`.                                      |
@@ -62,7 +72,7 @@ Next, the parameters are described:
 | `-hme, --homemade_embedding` | Using our compute pre-embedding.                     | Add like a `True`.                                      |
 |  `-re, --rnabert_embedding`  | Using embedding compute by `RNABERT` transformer.    | Add like a `True`.                                      |
 
-### One program, two usage 🧠
+### 🧠 One program, two usage
 
 #### **If you don't use the parameters `-pred, --predict_data`:**
 
