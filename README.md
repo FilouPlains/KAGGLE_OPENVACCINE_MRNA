@@ -43,7 +43,7 @@ To use this program, you will need to create a conda environment like so:
 
 ```bash
 mamba env create --file kaggle_reseau.yml
-conda env create --file kaggle_reseau.yaml
+conda env create --file env_RNABERT_emb.yaml
 conda activate reseau
 ```
 
