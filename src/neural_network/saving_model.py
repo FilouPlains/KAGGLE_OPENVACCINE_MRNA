@@ -3,7 +3,7 @@
 
 # [K]
 from keras import Input
-from keras.models import load_model
+from keras.models import load_model, save_model
 
 __authors__ = ["BEL Alexis", "BELAKTIB Anas", "OUSSAREN Mohamed",
                "ROUAUD Lucas"]
@@ -24,7 +24,7 @@ def saving_model(model, output_file):
         Name of the folder which will contain the model
     """
     # Save the model. Must be a h5 file.
-    model.save(output_file)
+    save_model(model, output_file)
 
     print("=" * 80 + "\n")
     print(f"Saved model as {output_file}.\n")
