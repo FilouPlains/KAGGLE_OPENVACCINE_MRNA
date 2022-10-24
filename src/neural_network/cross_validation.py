@@ -16,8 +16,8 @@ import neural_network.cnn as cnn
 import neural_network.inception as inc
 
 
-EPOCHS = 3
-BATCH_SIZE = 100
+EPOCHS = 1000
+BATCH_SIZE = 50
 
 
 def cross_val(is_nn_cnn, inputs, original, data_input, mask, data_output):
