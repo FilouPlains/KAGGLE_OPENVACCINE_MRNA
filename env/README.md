@@ -55,4 +55,5 @@ conda activate env_RNABERT_emb
 | scikit-learn     |  `0.24.2`   |
 | torchvision      |  `0.10.1`   |
 | biopython **\*** |   `1.76`    |
+
 **\*** is used with `pip`.
