@@ -10,7 +10,7 @@
 
 ```bash
 mamba env create --file kaggle_reseau.yml
-conda env create --file kaggle_reseau.yaml
+conda env create --file kaggle_reseau.yml
 conda activate reseau
 ```
 
