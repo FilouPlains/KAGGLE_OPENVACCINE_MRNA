@@ -117,7 +117,7 @@ if __name__ == "__main__":
         model = save.loading_model(arg["input"])
         predict_values = model.predict([data_input, masked])
         np.save(file_out, predict_values)
-        
+
         print("=" * 80 + "\n")
         print(f"File is output as {file_out}.\n")
         print("=" * 80 + "\n")

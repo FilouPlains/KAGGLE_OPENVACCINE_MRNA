@@ -1,4 +1,9 @@
-# <center> 🦙RNABERT🦙</center>
+# 🦙 RNABERT 🦙
+
+[![Python 3.6.4](https://img.shields.io/badge/python-_3.6.5-blue.svg)](https://www.python.org/downloads/release/python-365/)
+[![PyTorch 1.4.0](https://img.shields.io/badge/PyTorch-%E2%89%A5_1.4.0-blue.svg)](https://pytorch.org/get-started/previous-versions/#v140)
+[![Biopython 1.76](https://img.shields.io/badge/biopython-%E2%89%A5_1.76-blue.svg)](https://biopython.org/wiki/Download)
+
 
 > This repo contains the code for the paper **"Informative RNA-base embedding for functional RNA clustering and structural alignment"**. You can contact the author at akiyama@dna.bio.keio.ac.jp for any question. Please cite this paper if you use the code or system output. 
 
@@ -6,7 +11,7 @@ Here it was strip of all the code that permit to train, align and cluster. It wa
 
 ## 1. Environment setup 🔧
 
-The code is written with python Python 3.6.5. Our code requires `PyTorch >= 1.4.0` and `biopython version >= 1.76`. It will onlye read the pretrain model given here.
+The code is written with python Python 3.6.5. Our code requires `PyTorch >= 1.4.0` and `biopython version >= 1.76`. It will only read the pre-train model given here.
 
 
 **⚠️ Require:** Use the environment in (from the directory `rnabert`) `../../env` and type those commands:
