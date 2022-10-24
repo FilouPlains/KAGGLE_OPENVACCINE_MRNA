@@ -19,7 +19,7 @@ The code is written with python Python 3.6.5. Our code requires `PyTorch >= 1.4.
 ```
 mamba env create --file env_RNABERT_emb.yaml
 conda env create --file env_RNABERT_emb.yaml
-conda activate env_RNABERT_emb.yaml
+conda activate env_RNABERT_emb
 ```
 
 ## 2 Download pre-trained RNABERT 📶
