@@ -64,6 +64,10 @@ Next, the parameters are described:
 
 ### One program, two usage 🧠
 
-> **If you don't use the parameters `-pred, --predict_data`:** You actually said to the program that you want to train neural network. To do that, give to `-i, --input` a dataset to learn and to `-o, --output` the neural network to reuse. Do not forget to indicate a type of neural network (`-ginc, --google_inception` or `-ke, --keras_embedding`) to use and a type of an input embedding (`-ke, --keras_embedding`, `-hme, --homemade_embedding` or `-re, --rnabert_embedding`).
+#### **If you don't use the parameters `-pred, --predict_data`:**
 
-> **If you use the parameters `-pred, --predict_data`:** You actually said to the program that you already have a train neural network. So you want to predict `Y` data base on `X` data. To do that, give to `-i, --input` a trained neural network, to `-o, --output` how to write the `Y` predict data and to `-pred, --predict_data` the `X` data. Do not forget to indicate the good input embedding (`-ke, --keras_embedding`, `-hme, --homemade_embedding` or `-re, --rnabert_embedding`).
+You actually said to the program that you want to train neural network. To do that, give to `-i, --input` a dataset to learn and to `-o, --output` the neural network to reuse. Do not forget to indicate a type of neural network (`-ginc, --google_inception` or `-ke, --keras_embedding`) to use and a type of an input embedding (`-ke, --keras_embedding`, `-hme, --homemade_embedding` or `-re, --rnabert_embedding`).
+
+#### **If you use the parameters `-pred, --predict_data`:**
+
+You actually said to the program that you already have a train neural network. So you want to predict `Y` data base on `X` data. To do that, give to `-i, --input` a trained neural network, to `-o, --output` how to write the `Y` predict data and to `-pred, --predict_data` the `X` data. Do not forget to indicate the good input embedding (`-ke, --keras_embedding`, `-hme, --homemade_embedding` or `-re, --rnabert_embedding`).
