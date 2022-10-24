@@ -53,26 +53,27 @@ def parsing():
         required=True,
         dest="input",
         type=str,
-        help="Data to train the neural network or to predict values."
+        help=("['.npy', '.h5'] Data to train the neural network or to "
+              "predict values.")
     )
     parser.add_argument(
         "-o, --output",
         required=True,
         dest="output",
         type=str,
-        help="In function of given parameters, output a train neural network "
-        "or predict data."
+        help=("['.h5', '.csv', '.tsv', '.npy'] In function of given "
+              "parameters, output a train neural network or predict data.")
     )
     parser.add_argument(
         "--pred, --predict_data",
         required=False,
         dest="predict_data",
         type=str,
-        help=("An optional argument. If used, the program try to predict `Y` "
-              "data based on input `X` data. Else, the program train a neural "
-              "network. By default, not set, so the program train a neural "
-              "network. When this option is used, give after the `npy` file to "
-              "use to predict `Y` data.")
+        help=("['.npy'] An optional argument. If used, the program try to "
+              "predict `Y` data based on input `X` data. Else, the program "
+              "train a neural network. By default, not set, so the program "
+              "train a neural network. When this option is used, give after "
+              "the `npy` file to use to predict `Y` data.")
     )
 
     # == OPTIONAL.
@@ -177,8 +178,8 @@ def parsing():
         print("\n" + "=" * 80 + "\n")
 
         # Setting extensions to check.
-        input_extension = ["json"]
-        output_extension = ["npy", "csv", "tsv"]
+        input_extension = ["h5"]
+        output_extension = ["npy"]
 
         prediction_ext = argument["predict_data"].split(".")[-1]
 

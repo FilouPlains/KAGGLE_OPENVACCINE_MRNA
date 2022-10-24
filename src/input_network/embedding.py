@@ -14,12 +14,14 @@ import numpy as np
 # To tokenise input base.
 BASE = {
     True: {
+        "-": 0,
         "A": 1,
         "U": 2,
         "G": 3,
         "C": 4
     },
     False: {
+        "-": np.array([0, 0, 0, 0]),
         "A": np.array([1, 0, 0, 0]),
         "U": np.array([0, 1, 0, 0]),
         "G": np.array([0, 0, 1, 0]),
@@ -30,11 +32,13 @@ BASE = {
 # To tokenise input secondary structure position.
 PAIRED = {
     True: {
+        "-": 0,
         "(": 1,
         ".": 2,
         ")": 3
     },
     False: {
+        "-": np.array([0, 0, 0]),
         "(": np.array([1, 0, 0]),
         ".": np.array([0, 1, 0]),
         ")": np.array([0, 0, 1])
@@ -44,6 +48,7 @@ PAIRED = {
 # To tokenise input secondary structure type.
 LOOP = {
     True: {
+        "-": 0,
         "E": 1,
         "B": 2,
         "M": 3,
@@ -53,6 +58,7 @@ LOOP = {
         "S": 7
     },
     False: {
+        "-": np.array([0, 0, 0, 0, 0, 0, 0]),
         "E": np.array([1, 0, 0, 0, 0, 0, 0]),
         "B": np.array([0, 1, 0, 0, 0, 0, 0]),
         "M": np.array([0, 0, 1, 0, 0, 0, 0]),
@@ -86,7 +92,7 @@ def hot_encoding(dataset: np.array(str), encoder: "dict[str, int]",
     """
     # Break string into list, with 1 character per index.
     brk_array: list[list[str]] = [*dataset]
-    int_array: list[list[int]] = []
+    int_array: list[list[int]] = np.array([])
 
     # Parsing all array's row.
     for row in brk_array:
@@ -94,12 +100,16 @@ def hot_encoding(dataset: np.array(str), encoder: "dict[str, int]",
 
         # Parsing all row's base.
         for base in row:
-            trlt_base.append(encoder[is_tokenise][base])
+            trlt_base += [encoder[is_tokenise][base]]
 
-        int_array.append(trlt_base)
+        if int_array.shape[0] == 0:
+            int_array = np.array([trlt_base])
+        else:
+            int_array = np.concatenate((int_array, np.array([trlt_base])),
+                                       axis=0)
 
     # Returning into a numpy array.
-    return np.array(int_array)
+    return int_array
 
 
 def positional_embedding(length: int, seq_len: int, is_tokenise: bool = True,

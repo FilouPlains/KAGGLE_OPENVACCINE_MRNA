@@ -56,14 +56,22 @@ if __name__ == "__main__":
         full_output = np.zeros((2400, 62, 5))
 
         data_output = np.concatenate((data_output, full_output), axis=1)
-
     # Importing data for the `Y` prediction.
     else:
         model = arg["input"]
         dataset: np.array = np.load(arg["predict_data"], allow_pickle=True)
-        masked = mask.mask_test(dataset, 3634, 130, 5)
 
+        for i, line in enumerate(dataset):
+            gap = 130 - len(line[1])
+
+            dataset[i][1] = dataset[i][1] + "-" * gap
+            dataset[i][2] = dataset[i][2] + "-" * gap
+            dataset[i][3] = dataset[i][3] + "-" * gap
+
+        masked = mask.mask_test(dataset, 3634, 130, 5)
         model = save.loading_model(arg["input"])
+
+    n_line: int = dataset.shape[0]
 
     # Setting the embedding input.
     if arg["keras_embedding"]:
@@ -71,7 +79,9 @@ if __name__ == "__main__":
 
         # Modifying data input.
         data_input = kreb.concat_data(dataset)
-        data_input = mask.format_input(data_input, 2400, 3)
+
+        if arg["predict_data"] is None:
+            data_input = mask.format_input(data_input, n_line, 3)
     elif arg["own_embedding"]:
         input_seq, orig_seq = oweb.normalize_input_shape((130, 4), 120)
         input_sec, orig_sec = oweb.normalize_input_shape((130, 3), 120)
@@ -82,13 +92,13 @@ if __name__ == "__main__":
 
         # Modifying data unput.
         emb_seq = oweb.input_embedding(dataset[:, 1], emb.BASE)
-        emb_seq = mask.format_input(emb_seq, 2400, 4)
-
         emb_sec = oweb.input_embedding(dataset[:, 2], emb.PAIRED)
-        emb_sec = mask.format_input(emb_sec, 2400, 3)
-
         emb_loop = oweb.input_embedding(dataset[:, 3], emb.LOOP)
-        emb_loop = mask.format_input(emb_loop, 2400, 7)
+
+        if arg["predict_data"] is None:
+            emb_seq = mask.format_input(emb_seq, n_line, 4)
+            emb_sec = mask.format_input(emb_sec, n_line, 3)
+            emb_loop = mask.format_input(emb_loop, n_line, 7)
 
         data_input = [emb_seq, emb_sec, emb_loop]
     elif arg["rnabert_embedding"]:
@@ -104,7 +114,10 @@ if __name__ == "__main__":
         save.saving_model(model, arg["output"])
     # Predict `Y`.
     else:
-        model = save.loading_model(arg["output"])
-        predict_values = model.predict(arg["predict_data"])
-        print(predict_values)
-        print(type(predict_values))
+        model = save.loading_model(arg["input"])
+        predict_values = model.predict([data_input, masked])
+        np.save(file_out, predict_values)
+        
+        print("=" * 80 + "\n")
+        print(f"File is output as {file_out}.\n")
+        print("=" * 80 + "\n")
