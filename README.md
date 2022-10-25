@@ -43,7 +43,7 @@ To use this program, you will need to create a conda environment like so:
 
 ```bash
 mamba env create --file kaggle_reseau.yml
-conda env create --file env_RNABERT_emb.yaml
+conda env create --file kaggle_reseau.yaml
 conda activate reseau
 ```
 
@@ -66,11 +66,11 @@ Next, the parameters are described:
 |     **\***`-i, --input`      | Input `X` + `Y` data/neural network trained          | Add an `.npy` data file or a `.h5` neural network file. |
 |     **\***`-o, --output`     | Output data `Y`/neural network finish to be trained. | Add an `.npy` data file or a `.h5`   neural network file. |
 |   `-pred, --predict_data`    | Output predicted `Y` data.                           | Add an `.npy` data file.                                |
-|            `-cnn`            | Convolutional Neuronal Network.                      | Add like a `True`.                                      |
-| `-ginc, --google_inception`  | Google inception's neural network.                   | Add like a `True`.                                      |
-|   `-ke, --keras_embedding`   | Using classical `keras` embedding method.            | Add like a `True`.                                      |
-| `-hme, --homemade_embedding` | Using our compute pre-embedding.                     | Add like a `True`.                                      |
-|  `-re, --rnabert_embedding`  | Using embedding compute by `RNABERT` transformer.    | Add like a `True`.                                      |
+|           `--cnn`            | Convolutional Neuronal Network.                      | Add like a `True`.                                      |
+|`--ginc, --google_inception`  | Google inception's neural network.                   | Add like a `True`.                                      |
+|  `--ke, --keras_embedding`   | Using classical `keras` embedding method.            | Add like a `True`.                                      |
+|   `--owe, --own_embedding`   | Using our compute pre-embedding.                     | Add like a `True`.                                      |
+| `--re, --rnabert_embedding`  | Using embedding compute by `RNABERT` transformer.    | Add like a `True`.                                      |
 
 ### 🧠 One program, two usage
 
