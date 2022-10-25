@@ -109,7 +109,7 @@ if __name__ == "__main__":
     # Training a neural network.
     if arg["predict_data"] is None:
         model, history = cv.cross_val(arg["cnn"], inputs, original, data_input,
-                                      masked, data_output)
+                                      masked, data_output, file_out)
 
         save.saving_model(model, arg["output"])
     # Predict `Y`.

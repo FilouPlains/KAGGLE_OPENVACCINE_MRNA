@@ -16,11 +16,12 @@ import neural_network.cnn as cnn
 import neural_network.inception as inc
 
 
-EPOCHS = 1000
+EPOCHS = 5
 BATCH_SIZE = 50
 
 
-def cross_val(is_nn_cnn, inputs, original, data_input, mask, data_output):
+def cross_val(is_nn_cnn, inputs, original, data_input, mask, data_output,
+              file_out):
     """Calculate the mcmre of train and val and save the figure.
 
     Parameters
@@ -52,7 +53,9 @@ def cross_val(is_nn_cnn, inputs, original, data_input, mask, data_output):
     print("Writting `data/history.csv` to access to 'LOSS' and 'VAL_LOSS'.\n")
     print("=" * 80 + "\n")
 
-    with open("data/history.csv", "w", encoding="utf8") as file:
+    file_name: str = file_out[:-3] + "_history.csv"
+
+    with open(file_name, "w", encoding="utf8") as file:
         file.write(f"LOSS,VAL_LOSS\n")
 
         for i, loss in enumerate(history.history["loss"]):
