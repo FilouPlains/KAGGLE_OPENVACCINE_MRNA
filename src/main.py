@@ -129,7 +129,8 @@ if __name__ == "__main__":
     elif arg["rnabert_embedding"]:
         inputs = Input(shape=(130, 120))
         original = [inputs]
-        data_input = mask.format_input(dataset, n_line, 120)
+        if arg["predict_data"] is None:
+            data_input = mask.format_input(dataset, n_line, 120)
 
     # Training a neural network.
     if arg["predict_data"] is None:
