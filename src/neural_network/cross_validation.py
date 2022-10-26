@@ -17,7 +17,7 @@ import neural_network.inception as inc
 from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 
 
-EPOCHS = 100
+EPOCHS = 500
 BATCH_SIZE = 50
 
 
