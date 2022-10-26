@@ -111,7 +111,6 @@ if __name__ == "__main__":
         model, history = cv.cross_val(arg["cnn"], inputs, original, data_input,
                                       masked, data_output, file_out)
 
-        save.saving_model(model, arg["output"])
     # Predict `Y`.
     else:
         model = save.loading_model(arg["input"])
