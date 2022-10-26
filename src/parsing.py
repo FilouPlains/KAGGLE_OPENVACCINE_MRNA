@@ -64,6 +64,8 @@ def parsing():
         help=("['.h5', '.csv', '.tsv', '.npy'] In function of given "
               "parameters, output a train neural network or predict data.")
     )
+
+    # == OPTIONAL.
     parser.add_argument(
         "--pred, --predict_data",
         required=False,
@@ -76,7 +78,6 @@ def parsing():
               "the `npy` file to use to predict `Y` data.")
     )
 
-    # == OPTIONAL.
     # Which neural network to use.
     parser.add_argument(
         "--cnn",
@@ -111,17 +112,20 @@ def parsing():
         help=("An optional argument, NOT used by default. If used, the input "
               "is transform as a embedding create by our own way.")
     )
+
     parser.add_argument(
         "--re, --rnabert_embedding",
         required=False,
         dest="rnabert_embedding",
-        action="store_true",
-        help=("An optional argument, NOT used by default. If used, the input "
-              "is transform as a embedding output by RNABERT.")
+        type=str,
+        help=("An optional argument, NOT used by default. If used, the "
+              "input is transform as a embedding output by RNABERT. Add "
+              "the original data to have the `Y`. Isn't it, ALEXIS?")
     )
 
     # Transform the input into a dictionary with arguments as key.
     argument = vars(parser.parse_args())
+    predict_data = argument["predict_data"] is None
 
     # ===============================
     #
@@ -136,8 +140,6 @@ def parsing():
     elif os.path.exists(argument["output"]):
         sys.exit(f"\n[Err## 2] The output file '{argument['output']}' does "
                  "exist. Please change the output name file.")
-
-    predict_data = argument["predict_data"] is None
 
     # In neural network training mode.
     if predict_data:
@@ -168,6 +170,17 @@ def parsing():
             print("=" * 80 + "\n")
 
             argument["cnn"] = True
+
+        if not os.path.exists(argument["rnabert_embedding"]):
+            sys.exit(f"\n[Err## 8] The input file '{argument['input']}' does "
+                     "not exist. Please check this given file.")
+
+        rnabert_ext = argument["rnabert_embedding"].split(".")[-1]
+
+        if rnabert_ext not in ["npy"]:
+            sys.exit(f"\n[Err## 7] The prediction extension '.{rnabert_ext}'"
+                     " isn't a valid one. Please change it. Valid extensions "
+                     f"are:\n{['npy']}")
     # In predict `Y` values mode.
     else:
         print("=" * 80 + "\n")
@@ -204,14 +217,14 @@ def parsing():
 
     # Checking if embedding input method are correctly given.
     if argument["keras_embedding"] + argument["own_embedding"] + \
-            argument["rnabert_embedding"] > 1:
+            (argument["rnabert_embedding"] is not None) > 1:
         sys.exit("\n[Err## 6] Give too much embedding parameters. Please, "
                  "select only one.\n\t- [-ke, --keras_embedding]: "
                  f"{argument['keras_embedding']}\n\t- [-oe, --own_embedding]: "
                  f"{argument['own_embedding']}\n\t- [-re, --rnabert_embedding]"
-                 f": {argument['rnabert_embedding']}\n")
+                 f": {argument['rnabert_embedding'] is None}\n")
     elif argument["keras_embedding"] + argument["own_embedding"] + \
-            argument["rnabert_embedding"] == 0:
+            (argument["rnabert_embedding"] is not None) == 0:
         print("=" * 80 + "\n")
         print("- No input embedding specified, default one 'keras embedding' "
               "select.\n")

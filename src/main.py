@@ -46,30 +46,55 @@ if __name__ == "__main__":
         dataset: np.array = np.load(arg["input"], allow_pickle=True)
         masked = mask.mask(2400, 130, 5, 68)
 
-        # Generate output data.
-        COLS = [7, 9, 11, 13, 15]
+        if arg["rnabert_embedding"] is not None:
+            # Generate output data.
+            COLS = [7, 9, 11, 13, 15]
 
-        data_output = dataset[:, COLS].tolist()
-        data_output = np.array(data_output).reshape(2400, 68, 5)
+            data_rnabert = np.load(arg["rnabert_embedding"], allow_pickle=True)
 
-        # To make data from 107 base length to 130 base length.
-        full_output = np.zeros((2400, 62, 5))
+            data_output = data_rnabert[:, COLS].tolist()
+            data_output = np.array(data_output).reshape(2400, 68, 5)
 
-        data_output = np.concatenate((data_output, full_output), axis=1)
+            # To make data from 107 base length to 130 base length.
+            full_output = np.zeros((2400, 62, 5))
+
+            data_output = np.concatenate((data_output, full_output), axis=1)
+        else:
+            # Generate output data.
+            COLS = [7, 9, 11, 13, 15]
+
+            data_output = dataset[:, COLS].tolist()
+            data_output = np.array(data_output).reshape(2400, 68, 5)
+
+            # To make data from 107 base length to 130 base length.
+            full_output = np.zeros((2400, 62, 5))
+
+            data_output = np.concatenate((data_output, full_output), axis=1)
     # Importing data for the `Y` prediction.
     else:
         model = arg["input"]
         dataset: np.array = np.load(arg["predict_data"], allow_pickle=True)
 
-        for i, line in enumerate(dataset):
-            gap = 130 - len(line[1])
 
-            dataset[i][1] = dataset[i][1] + "-" * gap
-            dataset[i][2] = dataset[i][2] + "-" * gap
-            dataset[i][3] = dataset[i][3] + "-" * gap
+        if arg["rnabert_embedding"]:
+            data_rewrite = np.zeros((3634, 130, 120))
+            empty_list = [[0] * 120]
+
+            for i, line in enumerate(dataset):
+                gap = 130 - len(line)
+
+                data_rewrite[i] = np.array(dataset[i] + empty_list * gap)
+            
+            dataset = data_rewrite
+        else:
+            for i, line in enumerate(dataset):
+                gap = 130 - len(line[1])
+
+                dataset[i][1] += "-" * gap
+                dataset[i][2] += "-" * gap
+                dataset[i][3] += "-" * gap
 
         masked = mask.mask_test(dataset, 3634, 130, 5)
-        model = save.loading_model(arg["input"])
 
     n_line: int = dataset.shape[0]
 
