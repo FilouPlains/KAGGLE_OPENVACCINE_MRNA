@@ -6,22 +6,6 @@ Usage
     help generate by `argparse`.
 """
 
-from parsing import parsing
-
-from keras import Input
-from keras.layers import Add
-
-import neural_network.saving_model as save
-import neural_network.cross_validation as cv
-
-import input_network.keras_embedding as kreb
-import input_network.masking as mask
-import input_network.embedding as emb
-import input_network.own_embedding as oweb
-
-import numpy as np
-
-
 __authors__ = ["BEL Alexis", "BELAKTIB Anas", "OUSSAREN Mohamed",
                "ROUAUD Lucas"]
 __contact__ = ["alexbel28@yahoo.fr", "anas.belaktib@etu.u-paris.fr",
@@ -31,7 +15,23 @@ __version__ = "1.0.0"
 __copyright__ = "CC BY-SA"
 
 
+# [I]
+import input_network.keras_embedding as kreb
+import input_network.masking as mask
+import input_network.embedding as emb
+import input_network.own_embedding as oweb
+# [O]
 import os
+# [N]
+import neural_network.saving_model as save
+import neural_network.cross_validation as cv
+import numpy as np
+
+# [K]
+from keras import Input
+from keras.layers import Add
+# [P]
+from parsing import parsing
 
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"

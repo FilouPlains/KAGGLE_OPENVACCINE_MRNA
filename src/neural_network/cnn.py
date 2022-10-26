@@ -14,7 +14,7 @@ import tensorflow as tf
 
 # [K]
 from keras import Model
-from keras.layers import Dense, Conv1D, Multiply
+from keras.layers import Dense, Conv1D, Multiply, Dropout
 # [N]
 from neural_network.mcrmse import mcrmse
 
@@ -59,12 +59,20 @@ def cnn(inputs, original, mask):
     # Neural network.
     inputs = Conv1D(32, 3, activation="relu", kernel_initializer="he_uniform",
                     input_shape=(130, 1), padding="same")(inputs)
+    inputs = Dropout(0.2)(inputs)
+
     inputs = Conv1D(64, 3, activation="relu", kernel_initializer="he_uniform",
                     padding="same")(inputs)
+    inputs = Dropout(0.2)(inputs)
+
     inputs = Conv1D(64, 3, activation="relu", kernel_initializer="he_uniform",
                     padding="same")(inputs)
+    inputs = Dropout(0.2)(inputs)
+
     inputs = Conv1D(5, 3, activation="relu", kernel_initializer="he_uniform",
                     padding="same")(inputs)
+    inputs = Dropout(0.2)(inputs)
+
 
     # Applying the mask.
     inputs = Multiply()([inputs, mask])

@@ -6,7 +6,7 @@ from neural_network.mcrmse import mcrmse
 # [K]
 from keras import Input, Model
 from keras.layers import Conv1D, Dense, concatenate, MaxPooling1D, Multiply
-from keras.layers import Bidirectional, GRU
+from keras.layers import Dropout
 
 
 __authors__ = ["BEL Alexis", "BELAKTIB Anas", "OUSSAREN Mohamed",
@@ -34,14 +34,22 @@ def __inception(inputs):
     # First convolution.
     conv_1 = Conv1D(22, (1), padding="same", activation="relu")(inputs)
     conv_1 = Conv1D(22, (3), padding="same", activation="relu")(conv_1)
+    conv_1 = Dropout(0.2)(conv_1)
+
     # Second convolution.
     conv_2 = Conv1D(22, (1), padding="same", activation="relu")(inputs)
     conv_2 = Conv1D(22, (5), padding="same", activation="relu")(conv_2)
+    conv_2 = Dropout(0.2)(conv_2)
+
     # Third convolution.
     conv_3 = MaxPooling1D((3), strides=(1), padding="same")(inputs)
     conv_3 = Conv1D(22, (1), padding="same", activation="relu")(conv_3)
+    conv_3 = Dropout(0.2)(conv_3)
+
     # Last convolution.
     conv_4 = Conv1D(22, (1), padding="same", activation="relu")(inputs)
+    conv_4 = Dropout(0.2)(conv_4)
+
     conv = concatenate([conv_1, conv_2, conv_3, conv_4], axis=2)
 
     return conv
@@ -75,11 +83,18 @@ def inception(inputs, original, mask, n_inception=2):
         inputs = __inception(inputs)
 
     inputs = Dense(1200, activation="relu")(inputs)
+    inputs = Dropout(0.2)(inputs)
 
     # Dense layers.
     inputs = Dense(600, activation="relu")(inputs)
+    inputs = Dropout(0.2)(inputs)
+
     inputs = Dense(150, activation="relu")(inputs)
+    inputs = Dropout(0.2)(inputs)
+
     inputs = Dense(5, activation="relu")(inputs)
+    inputs = Dropout(0.2)(inputs)
+
 
     inputs = Multiply()([inputs, mask])
     output = Dense(5, activation="linear")(inputs)

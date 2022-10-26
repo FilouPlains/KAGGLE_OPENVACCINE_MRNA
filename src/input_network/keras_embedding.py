@@ -16,7 +16,7 @@ import numpy as np
 
 # [K]
 from keras import Input
-from keras.layers import Embedding, Conv1D, Reshape
+from keras.layers import Embedding, Conv1D, Reshape, Dropout
 
 
 def keras_embedding(filtering=1):
@@ -42,6 +42,7 @@ def keras_embedding(filtering=1):
     # Convolution layer to have a 1 at the end.
     inputs = Conv1D(filters=filtering, kernel_size=(1),
                     padding="valid")(inputs)
+    inputs = Dropout(0.2)(inputs)
 
     return inputs, [original]
 

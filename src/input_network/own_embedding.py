@@ -16,6 +16,7 @@ import numpy as np
 
 # K
 from keras.layers import Activation, Add, BatchNormalization, Conv2D, Conv1D
+from keras.layers import Dropout
 from keras import Input
 
 
@@ -40,6 +41,7 @@ def normalize_input_shape(shape: "tuple[int]", filtering: int = 1):
     inputs = Activation("relu")(inputs)
     inputs = Conv1D(filters=filtering, kernel_size=(1),
                     padding="valid")(inputs)
+    inputs = Dropout(0.2)(inputs)
 
     return inputs, original
 

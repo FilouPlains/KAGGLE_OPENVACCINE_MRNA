@@ -16,7 +16,7 @@ import neural_network.cnn as cnn
 import neural_network.inception as inc
 
 
-EPOCHS = 1000
+EPOCHS = 500
 BATCH_SIZE = 50
 
 
