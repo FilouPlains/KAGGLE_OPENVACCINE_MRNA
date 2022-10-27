@@ -171,16 +171,17 @@ def parsing():
 
             argument["cnn"] = True
 
-        if not os.path.exists(argument["rnabert_embedding"]):
-            sys.exit(f"\n[Err## 8] The input file '{argument['input']}' does "
-                     "not exist. Please check this given file.")
+        if argument["rnabert_embedding"] is not None:
+            if not os.path.exists(argument["rnabert_embedding"]):
+                sys.exit(f"\n[Err## 8] The input file '{argument['input']}' "
+                         "does not exist. Please check this given file.")
 
-        rnabert_ext = argument["rnabert_embedding"].split(".")[-1]
+            rnabert_ext = argument["rnabert_embedding"].split(".")[-1]
 
-        if rnabert_ext not in ["npy"]:
-            sys.exit(f"\n[Err## 7] The prediction extension '.{rnabert_ext}'"
-                     " isn't a valid one. Please change it. Valid extensions "
-                     f"are:\n{['npy']}")
+            if rnabert_ext not in ["npy"]:
+                sys.exit("\n[Err## 7] The prediction extension "
+                         f"'.{rnabert_ext}' isn't a valid one. Please change "
+                         f"it. Valid extensions are:\n{['npy']}")
     # In predict `Y` values mode.
     else:
         print("=" * 80 + "\n")
