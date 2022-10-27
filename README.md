@@ -12,7 +12,7 @@ Master 2 Bio-informatics at *Univerité de Paris*.
 ![GitHub stars](https://img.shields.io/github/stars/FilouPlains/KAGGLE_OPENVACCINE_MRNA.svg?style=social)
 
 ## 🔎 Interesting path
-- 📑 Report: `doc/report`
+- 📑 Report: `doc/report/report.pdf`
 - 📢 Oral presentation: `doc/presentation`
 - 🖥 Main: `src/main.py`
 
