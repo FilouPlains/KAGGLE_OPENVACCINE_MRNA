@@ -16,7 +16,7 @@ __copyright__ = "CC BY-SA"
 
 def saving_model(model, output_file):
     """ Save a model in the folder data/model
-        Parameters
+    Parameters
     ----------
     model : model
         a model fitted (architecture, weight, compile)
@@ -33,11 +33,13 @@ def saving_model(model, output_file):
 
 def loading_model(model_file):
     """ Load a model from the folder data/model
-        Parameters
+    Parameters
     ----------
-    model_file : 
+    model_file
         Name of the file which contain the model and the weight
-    Return :
+    Returns
+    -------
+    model_file
         Fitted model
     """
 
